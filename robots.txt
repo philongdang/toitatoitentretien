@@ -1,0 +1,35 @@
+# Toit à Toit Entretien — allow search engines AND AI answer engines.
+# AI crawlers are explicitly welcomed (GEO): being citable in ChatGPT,
+# Perplexity, Google AI Overviews, Claude, etc. is a primary discovery surface.
+# NOTE: if hosting on Cloudflare, re-check that its bot-fight / AI-bot blocking
+# is OFF, or these allowances are silently overridden (see TODO-VERIFY.md).
+
+User-agent: *
+Allow: /
+
+# AI / answer-engine crawlers (explicit allow)
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://toitatoitentretien.ca/sitemap-index.xml
