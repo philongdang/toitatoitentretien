@@ -1,0 +1,58 @@
+---
+// Self-hosted fonts (Fontsource) — bundled + hashed by Vite, no third-party requests.
+import '@fontsource-variable/bricolage-grotesque/wght.css';
+import '@fontsource-variable/ibm-plex-sans/wght.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+
+import BaseHead from './BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import StickyCTA from '../components/StickyCTA.astro';
+import { otherLang, toLangPath } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+import { withBase } from '../lib/base';
+import type { UiLang } from '../i18n/ui';
+import type { RouteKey } from '../lib/routes';
+
+interface Props {
+  title: string;
+  description: string;
+  lang: UiLang;
+  alternates?: { fr: string; en: string };
+  image?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  active?: RouteKey;
+}
+const { title, description, lang, alternates, image, type, noindex, jsonLd, active } = Astro.props;
+const t = useTranslations(lang);
+
+const otherL = otherLang(lang);
+const altLangPath = alternates ? withBase(alternates[otherL]) : toLangPath(Astro.url.pathname, otherL);
+---
+
+<!doctype html>
+<html lang={lang === 'fr' ? 'fr-CA' : 'en-CA'}>
+  <head>
+    <BaseHead {title} {description} {lang} {alternates} {image} {type} {noindex} {jsonLd} />
+  </head>
+  <body class="pb-[4.75rem] md:pb-0">
+    <a
+      href="#main"
+      class="sr-only z-50 rounded-md bg-ink px-4 py-2 text-white focus:not-sr-only focus:absolute focus:left-4 focus:top-4"
+    >
+      {t('a11y.skip')}
+    </a>
+
+    <Header lang={lang} altLangPath={altLangPath} active={active} />
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <Footer lang={lang} altLangPath={altLangPath} />
+    <StickyCTA lang={lang} />
+  </body>
+</html>

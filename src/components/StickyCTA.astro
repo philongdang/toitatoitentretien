@@ -1,0 +1,36 @@
+---
+import Icon from './Icon.astro';
+import { business } from '../lib/business';
+import type { UiLang } from '../i18n/ui';
+import { useTranslations } from '../i18n/utils';
+import { route } from '../lib/routes';
+
+interface Props { lang: UiLang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const contactHref = route('contact', lang);
+---
+
+<!-- Persistent mobile conversion bar — always one tap from a call or a quote. -->
+<div
+  class="fixed inset-x-0 bottom-0 z-40 md:hidden"
+  style="padding-bottom: env(safe-area-inset-bottom);"
+>
+  <div class="grid grid-cols-2 gap-2 border-t border-line bg-surface/95 px-3 py-2.5 shadow-[0_-6px_20px_rgba(20,25,29,0.08)] backdrop-blur">
+    <a
+      href={business.phone.href}
+      data-track="call"
+      class="inline-flex min-h-[2.875rem] items-center justify-center gap-2 rounded-md border border-line-strong bg-surface-raised px-4 py-2.5 font-semibold text-ink transition-[transform,background-color] duration-200 ease-out active:scale-[0.98]"
+    >
+      <Icon name="phone" size={19} />
+      {t('cta.call')}
+    </a>
+    <a
+      href={contactHref}
+      data-track="quote"
+      class="inline-flex min-h-[2.875rem] items-center justify-center gap-2 rounded-md bg-accent px-4 py-2.5 font-semibold text-white shadow-sm transition-[transform,background-color] duration-200 ease-out hover:bg-accent-hover active:scale-[0.98]"
+    >
+      {t('cta.quote')}
+    </a>
+  </div>
+</div>

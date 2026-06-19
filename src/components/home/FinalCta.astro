@@ -1,0 +1,50 @@
+---
+import Button from '../Button.astro';
+import { business } from '../../lib/business';
+import { route } from '../../lib/routes';
+import type { UiLang } from '../../i18n/ui';
+import { useTranslations } from '../../i18n/utils';
+
+interface Props { lang: UiLang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const contactHref = route('contact', lang);
+
+const copy = {
+  fr: {
+    h2: 'Prêt à protéger votre toit ?',
+    body: 'Soumission gratuite, sans obligation. On vous répond sous 24 h.',
+  },
+  en: {
+    h2: 'Ready to protect your roof?',
+    body: 'Free quote, no obligation. We reply within 24 hours.',
+  },
+}[lang];
+---
+
+<section class="py-16 md:py-24">
+  <div class="container-page">
+    <div class="relative overflow-hidden rounded-2xl bg-slate px-7 py-12 text-white md:px-14 md:py-16">
+      <div
+        class="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full opacity-70"
+        style="background: radial-gradient(closest-side, rgba(233,84,29,0.42), transparent 72%);"
+        aria-hidden="true"
+      >
+      </div>
+      <div class="relative flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+        <div class="max-w-xl">
+          <h2 class="text-3xl text-white md:text-4xl">{copy.h2}</h2>
+          <p class="mt-3 text-lg text-white/70">{copy.body}</p>
+        </div>
+        <div class="flex flex-col gap-3 sm:flex-row md:shrink-0">
+          <Button href={contactHref} variant="primary" size="lg" iconRight="arrow-right" data-track="quote">
+            {t('cta.quote')}
+          </Button>
+          <Button href={business.phone.href} variant="dark" size="lg" icon="phone" data-track="call">
+            {business.phone.display}
+          </Button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

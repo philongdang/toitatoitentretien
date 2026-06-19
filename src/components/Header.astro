@@ -1,0 +1,123 @@
+---
+import Wordmark from './Wordmark.astro';
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import { business } from '../lib/business';
+import { primaryNav, route, routes, type RouteKey } from '../lib/routes';
+import type { UiLang } from '../i18n/ui';
+import { useTranslations } from '../i18n/utils';
+
+interface Props { lang: UiLang; altLangPath: string; active?: RouteKey }
+const { lang, altLangPath, active } = Astro.props;
+const t = useTranslations(lang);
+const contactHref = route('contact', lang);
+const altLabel = lang === 'fr' ? 'EN' : 'FR';
+---
+
+<header class="sticky top-0 z-40 border-b border-line bg-surface/85 backdrop-blur-md">
+  <div class="container-page relative flex h-16 items-center justify-between gap-4">
+    <Wordmark lang={lang} />
+
+    <!-- Desktop nav -->
+    <nav class="hidden items-center gap-7 md:flex" aria-label={t('a11y.langMenu')}>
+      {
+        primaryNav.map((key) => (
+          <a
+            href={route(key, lang)}
+            aria-current={active === key ? 'page' : undefined}
+            class:list={[
+              'relative py-1 text-[0.95rem] font-medium text-ink-soft transition-colors hover:text-ink',
+              'after:absolute after:-bottom-0.5 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-accent after:transition-transform after:duration-200 after:ease-out hover:after:scale-x-100',
+              active === key && 'text-ink after:scale-x-100',
+            ]}
+          >
+            {t(routes[key].labelKey)}
+          </a>
+        ))
+      }
+    </nav>
+
+    <!-- Desktop actions -->
+    <div class="hidden items-center gap-4 md:flex">
+      <a
+        href={business.phone.href}
+        data-track="call"
+        class="inline-flex items-center gap-2 font-mono text-sm font-medium text-ink transition-colors hover:text-accent-strong"
+      >
+        <Icon name="phone" size={18} class="text-accent-strong" />
+        {business.phone.display}
+      </a>
+      <a
+        href={altLangPath}
+        hreflang={lang === 'fr' ? 'en' : 'fr'}
+        class="inline-flex items-center gap-1 rounded-md px-2 py-1.5 font-mono text-xs font-medium text-ink-faint transition-colors hover:bg-surface-sunken hover:text-ink"
+        aria-label={t('a11y.langMenu')}
+      >
+        <Icon name="globe" size={16} /> {altLabel}
+      </a>
+      <Button href={contactHref} variant="primary" data-track="quote">{t('cta.quote')}</Button>
+    </div>
+
+    <!-- Mobile actions -->
+    <div class="flex items-center gap-1 md:hidden">
+      <a
+        href={business.phone.href}
+        data-track="call"
+        aria-label={`${t('cta.call')} ${business.phone.display}`}
+        class="grid h-11 w-11 place-items-center rounded-md text-accent-strong transition-colors active:bg-surface-sunken"
+      >
+        <Icon name="phone" size={22} />
+      </a>
+
+      <details class="ttt-menu">
+        <summary
+          class="grid h-11 w-11 cursor-pointer list-none place-items-center rounded-md text-ink transition-colors active:bg-surface-sunken"
+          aria-label={t('a11y.openMenu')}
+        >
+          <span class="ico-open"><Icon name="menu" size={24} /></span>
+          <span class="ico-close"><Icon name="close" size={24} /></span>
+        </summary>
+
+        <div class="absolute inset-x-0 top-full origin-top border-b border-line bg-surface shadow-lg">
+          <nav class="container-page flex flex-col py-3" aria-label="Mobile">
+            {
+              primaryNav.map((key) => (
+                <a
+                  href={route(key, lang)}
+                  aria-current={active === key ? 'page' : undefined}
+                  class:list={[
+                    'flex items-center justify-between border-b border-line/70 py-3.5 text-[1.05rem] font-medium text-ink',
+                    active === key && 'text-accent-strong',
+                  ]}
+                >
+                  {t(routes[key].labelKey)}
+                  <Icon name="arrow-right" size={18} class="text-ink-faint" />
+                </a>
+              ))
+            }
+            <div class="mt-4 flex items-center gap-3">
+              <Button href={contactHref} variant="primary" class="flex-1" data-track="quote">
+                {t('cta.quote')}
+              </Button>
+              <a
+                href={altLangPath}
+                hreflang={lang === 'fr' ? 'en' : 'fr'}
+                class="grid h-[2.875rem] place-items-center rounded-md border border-line-strong px-4 font-mono text-sm text-ink"
+              >
+                {altLabel}
+              </a>
+            </div>
+          </nav>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>
+
+<style>
+  /* Native <details> disclosure: zero-JS, works without scripts. */
+  .ttt-menu .ico-close { display: none; }
+  .ttt-menu[open] .ico-open { display: none; }
+  .ttt-menu[open] .ico-close { display: block; }
+  summary::-webkit-details-marker { display: none; }
+</style>

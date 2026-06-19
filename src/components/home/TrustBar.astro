@@ -1,0 +1,37 @@
+---
+import Icon from '../Icon.astro';
+import type { UiLang } from '../../i18n/ui';
+
+interface Props { lang: UiLang }
+const { lang } = Astro.props;
+
+const items = {
+  fr: [
+    { icon: 'shield', label: 'Assurance responsabilité complète' },
+    { icon: 'check', label: 'Travail garanti' },
+    { icon: 'pin', label: 'Île de Montréal et environs' },
+    { icon: 'clock', label: 'Soumission gratuite sous 24 h' },
+  ],
+  en: [
+    { icon: 'shield', label: 'Full liability insurance' },
+    { icon: 'check', label: 'Guaranteed work' },
+    { icon: 'pin', label: 'Island of Montréal & area' },
+    { icon: 'clock', label: 'Free quote within 24 h' },
+  ],
+}[lang] as { icon: any; label: string }[];
+---
+
+<section class="border-b border-line bg-surface-sunken" aria-label={lang === 'fr' ? 'Nos garanties' : 'Our assurances'}>
+  <div class="container-page grid grid-cols-2 gap-x-6 gap-y-5 py-6 md:grid-cols-4 md:py-7">
+    {
+      items.map((i) => (
+        <div class="flex items-center gap-3">
+          <span class="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-accent-tint text-accent-strong">
+            <Icon name={i.icon} size={20} />
+          </span>
+          <span class="text-sm font-medium leading-snug text-ink">{i.label}</span>
+        </div>
+      ))
+    }
+  </div>
+</section>

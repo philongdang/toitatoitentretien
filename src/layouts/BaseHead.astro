@@ -1,0 +1,98 @@
+---
+/**
+ * <head> plumbing for every page: title, meta, canonical, reciprocal hreflang,
+ * Open Graph / Twitter, favicons, and the site-wide LocalBusiness JSON-LD.
+ * Visual layout (header/footer/sticky CTA) lives in BaseLayout, built on top
+ * of this during the design pass.
+ */
+import '../styles/global.css';
+import { localBusinessSchema } from '../lib/schema';
+import { toLangPath } from '../i18n/utils';
+import { withBase } from '../lib/base';
+import type { UiLang } from '../i18n/ui';
+
+interface Props {
+  title: string;
+  description: string;
+  lang: UiLang;
+  /** Explicit hreflang targets (for localized slugs); else derived from the URL. */
+  alternates?: { fr: string; en: string };
+  /** OG image path relative to site root. */
+  image?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+  title,
+  description,
+  lang,
+  alternates,
+  image = '/og-default.jpg',
+  type = 'website',
+  noindex = false,
+  jsonLd,
+} = Astro.props;
+
+const site = Astro.site ?? new URL('https://toitatoitentretien.ca');
+const siteOrigin = site.origin;
+const currentPath = Astro.url.pathname;
+
+const canonical = new URL(currentPath, site).href;
+
+const frPath = alternates?.fr ?? toLangPath(currentPath, 'fr');
+const enPath = alternates?.en ?? toLangPath(currentPath, 'en');
+const frHref = new URL(withBase(frPath), site).href;
+const enHref = new URL(withBase(enPath), site).href;
+
+const ogLocale = lang === 'fr' ? 'fr_CA' : 'en_CA';
+const ogLocaleAlt = lang === 'fr' ? 'en_CA' : 'fr_CA';
+const ogImage = new URL(withBase(image), site).href;
+
+const business = localBusinessSchema(siteOrigin, lang);
+const schemas: Record<string, unknown>[] = [business];
+if (Array.isArray(jsonLd)) schemas.push(...jsonLd);
+else if (jsonLd) schemas.push(jsonLd);
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<!-- Reciprocal hreflang -->
+<link rel="alternate" hreflang="fr-CA" href={frHref} />
+<link rel="alternate" hreflang="en-CA" href={enHref} />
+<link rel="alternate" hreflang="x-default" href={frHref} />
+
+<!-- Open Graph -->
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content="Toit à Toit Entretien" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:locale" content={ogLocale} />
+<meta property="og:locale:alternate" content={ogLocaleAlt} />
+<meta property="og:image" content={ogImage} />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<!-- Icons -->
+<link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+<link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} />
+
+<!-- Structured data -->
+{
+  schemas.map((s) => (
+    <script type="application/ld+json" set:html={JSON.stringify(s)} />
+  ))
+}

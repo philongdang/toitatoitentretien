@@ -1,0 +1,29 @@
+---
+import { route } from '../lib/routes';
+import { withBase } from '../lib/base';
+import type { UiLang } from '../i18n/ui';
+
+interface Props { lang: UiLang; tone?: 'ink' | 'light'; class?: string }
+const { lang, tone = 'ink', class: className = '' } = Astro.props;
+const home = route('home', lang);
+
+const text = tone === 'light' ? 'text-white' : 'text-ink';
+const sub = tone === 'light' ? 'text-white/55' : 'text-ink-faint';
+---
+
+<a
+  href={home}
+  class={`group inline-flex items-center gap-2.5 ${className}`}
+  aria-label="Toit à Toit Entretien — accueil"
+>
+  <img
+    src={withBase('/logo-mark.svg')}
+    alt=""
+    width="40"
+    height="40"
+    class="h-10 w-10 shrink-0 transition-transform duration-200 ease-out group-hover:-translate-y-0.5"
+  />
+  <span class={`font-display text-[1.15rem] font-semibold leading-none tracking-tight ${text}`}>
+    Toit à Toit <span class={`font-medium ${sub}`}>Entretien</span>
+  </span>
+</a>

@@ -1,0 +1,118 @@
+---
+import Button from '../Button.astro';
+import Icon from '../Icon.astro';
+import BeforeAfter from '../BeforeAfter.tsx';
+import { business } from '../../lib/business';
+import { route } from '../../lib/routes';
+import { withBase } from '../../lib/base';
+import type { UiLang } from '../../i18n/ui';
+import { useTranslations } from '../../i18n/utils';
+
+interface Props { lang: UiLang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const contactHref = route('contact', lang);
+const beforeSrc = withBase('/samples/roof-before.svg');
+const afterSrc = withBase('/samples/roof-after.svg');
+
+const copy = {
+  fr: {
+    eyebrow: 'Nettoyage et entretien de toiture · Île de Montréal',
+    h1a: 'Entretien de toiture',
+    h1accent: 'honnête',
+    h1b: ', à Montréal.',
+    sub: "Déneigement, drains, feuilles, prévention des inondations de toit plat. On évalue gratuitement — et si votre toit n'a pas besoin de nous cette année, on vous le dira.",
+    trust: ['Assuré', 'Garanti', 'Local'],
+    reply: 'Réponse sous 24 h',
+    beforeAlt: "Toit plat à Montréal couvert de feuilles d'automne, drain obstrué — image exemple",
+    afterAlt: 'Le même toit plat, nettoyé, drain dégagé — image exemple',
+    sample: 'Exemple — photo réelle à venir',
+  },
+  en: {
+    eyebrow: 'Roof cleaning & maintenance · Island of Montréal',
+    h1a: 'Honest roof',
+    h1accent: 'maintenance',
+    h1b: ', in Montréal.',
+    sub: "Snow removal, drains, leaves, flat-roof flood prevention. We assess for free — and if your roof doesn't need us this year, we'll tell you.",
+    trust: ['Insured', 'Guaranteed', 'Local'],
+    reply: 'We reply within 24 h',
+    beforeAlt: 'A Montréal flat roof covered in autumn leaves with a blocked drain — sample image',
+    afterAlt: 'The same flat roof, cleaned, with a clear drain — sample image',
+    sample: 'Sample — real photo coming',
+  },
+}[lang];
+---
+
+<section class="relative overflow-hidden border-b border-line">
+  <!-- faint copper warmth, top-right; never blocks paint -->
+  <div
+    class="pointer-events-none absolute -right-40 -top-40 h-[28rem] w-[28rem] rounded-full opacity-60"
+    style="background: radial-gradient(closest-side, var(--color-accent-tint), transparent 70%);"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="container-page relative grid items-center gap-10 py-12 md:grid-cols-12 md:gap-10 md:py-20">
+    <div class="md:col-span-5">
+      <p class="eyebrow">{copy.eyebrow}</p>
+      <h1 class="mt-4 text-[2.4rem] leading-[1.05] sm:text-5xl md:text-[3.35rem]">
+        {copy.h1a}{' '}
+        <span class="text-accent-strong">{copy.h1accent}</span>{copy.h1b}
+      </h1>
+      <p class="mt-5 max-w-xl text-lg text-ink-soft">{copy.sub}</p>
+
+      <!-- slider on mobile sits here, between subhead and CTAs -->
+      <div class="mt-8 md:hidden">
+        <BeforeAfter
+          client:idle
+          beforeSrc={beforeSrc}
+          afterSrc={afterSrc}
+          beforeAlt={copy.beforeAlt}
+          afterAlt={copy.afterAlt}
+          beforeLabel={t('beforeafter.before')}
+          afterLabel={t('beforeafter.after')}
+          handleLabel={t('beforeafter.handle')}
+          sampleLabel={copy.sample}
+          priority={true}
+        />
+      </div>
+
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <Button href={contactHref} variant="primary" size="lg" iconRight="arrow-right" data-track="quote">
+          {t('cta.quoteLong')}
+        </Button>
+        <Button href={business.phone.href} variant="secondary" size="lg" icon="phone" data-track="call">
+          {business.phone.display}
+        </Button>
+      </div>
+
+      <ul class="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-medium text-ink-soft">
+        {copy.trust.map((item) => (
+          <li class="inline-flex items-center gap-1.5">
+            <Icon name="check" size={17} class="text-patina" />{item}
+          </li>
+        ))}
+        <li class="inline-flex items-center gap-1.5">
+          <Icon name="clock" size={16} class="text-ink-faint" />{copy.reply}
+        </li>
+      </ul>
+    </div>
+
+    <!-- slider on desktop -->
+    <div class="hidden md:col-span-7 md:block">
+      <BeforeAfter
+        client:idle
+        beforeSrc={beforeSrc}
+        afterSrc={afterSrc}
+        beforeAlt={copy.beforeAlt}
+        afterAlt={copy.afterAlt}
+        beforeLabel={t('beforeafter.before')}
+        afterLabel={t('beforeafter.after')}
+        handleLabel={t('beforeafter.handle')}
+        sampleLabel={copy.sample}
+        priority={true}
+        className="shadow-lg"
+      />
+    </div>
+  </div>
+</section>

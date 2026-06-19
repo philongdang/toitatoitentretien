@@ -1,0 +1,66 @@
+---
+import Icon from './Icon.astro';
+
+/**
+ * CTA button. Renders an <a> when `href` is set, otherwise a <button>.
+ * Variants: primary (copper, the main conversion action), secondary (outline),
+ * dark (on the slate band). Tap target ≥ 44px. Motion: specific props, sub-300ms.
+ */
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary' | 'dark';
+  size?: 'md' | 'lg';
+  icon?: any;
+  iconRight?: any;
+  type?: 'button' | 'submit';
+  class?: string;
+  'data-track'?: string;
+  rest?: Record<string, unknown>;
+}
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  icon,
+  iconRight,
+  type = 'button',
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+const base =
+  'group inline-flex items-center justify-center gap-2 rounded-md font-semibold leading-none ' +
+  'transition-[transform,background-color,border-color,box-shadow,color] duration-200 ease-out ' +
+  'active:translate-y-0 active:scale-[0.98] select-none';
+
+const sizes = {
+  md: 'px-5 py-3 text-[0.95rem] min-h-[2.875rem]',
+  lg: 'px-6 py-3.5 text-base min-h-[3.125rem]',
+};
+
+const variants = {
+  primary:
+    'bg-accent text-white shadow-sm hover:bg-accent-hover hover:-translate-y-0.5 hover:shadow-md',
+  secondary:
+    'bg-surface-raised text-ink border border-line-strong hover:border-ink hover:-translate-y-0.5 hover:shadow-sm',
+  dark:
+    'bg-white/10 text-white border border-white/25 backdrop-blur-sm hover:bg-white/18 hover:-translate-y-0.5',
+};
+
+const cls = [base, sizes[size], variants[variant], className].join(' ');
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag class={cls} href={href} type={href ? undefined : type} {...rest}>
+  {icon && <Icon name={icon} size={19} class="-ml-0.5 shrink-0" />}
+  <span><slot /></span>
+  {
+    iconRight && (
+      <Icon
+        name={iconRight}
+        size={19}
+        class="-mr-0.5 shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-0.5"
+      />
+    )
+  }
+</Tag>

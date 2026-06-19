@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/home/Hero.astro';
+import TrustBar from '../components/home/TrustBar.astro';
+import Honesty from '../components/home/Honesty.astro';
+import Services from '../components/home/Services.astro';
+import Work from '../components/home/Work.astro';
+import WhyUs from '../components/home/WhyUs.astro';
+import FinalCta from '../components/home/FinalCta.astro';
+
+const lang = 'fr';
+const title = 'Toit à Toit Entretien — Nettoyage et entretien de toiture à Montréal';
+const description =
+  'Nettoyage et entretien de toiture à Montréal : déneigement, dégagement de drain, soufflage de feuilles et prévention des inondations. Entreprise locale et assurée. Soumission gratuite sous 24 h.';
+---
+
+<BaseLayout {title} {description} {lang} alternates={{ fr: '/', en: '/en/' }}>
+  <Hero lang={lang} />
+  <TrustBar lang={lang} />
+  <Honesty lang={lang} />
+  <Services lang={lang} />
+  <Work lang={lang} />
+  <WhyUs lang={lang} />
+  <FinalCta lang={lang} />
+</BaseLayout>

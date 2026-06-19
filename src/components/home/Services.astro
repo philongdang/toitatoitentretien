@@ -1,0 +1,84 @@
+---
+import Icon from '../Icon.astro';
+import { services, type ServiceCategory } from '../../lib/business';
+import { servicePath, route } from '../../lib/routes';
+import type { UiLang } from '../../i18n/ui';
+
+interface Props { lang: UiLang }
+const { lang } = Astro.props;
+
+const iconFor: Record<ServiceCategory, any> = {
+  deneigement: 'snow',
+  drain: 'drop',
+  feuilles: 'leaf',
+  inondations: 'shield',
+  toiture: 'roof',
+  'sur-mesure': 'wrench',
+};
+
+const seasonLabel: Record<string, { fr: string; en: string }> = {
+  hiver: { fr: 'Hiver', en: 'Winter' },
+  automne: { fr: 'Automne', en: 'Fall' },
+};
+
+const copy = {
+  fr: {
+    eyebrow: 'Nos services',
+    h2: 'Tout ce qui garde un toit en santé',
+    intro: "Du déneigement d'urgence à la rénovation, on couvre chaque étape de l'entretien d'une toiture à Montréal.",
+    more: 'En savoir plus',
+    all: 'Tous nos services',
+  },
+  en: {
+    eyebrow: 'Our services',
+    h2: 'Everything that keeps a roof healthy',
+    intro: 'From emergency snow removal to renovation, we cover every stage of roof maintenance in Montréal.',
+    more: 'Learn more',
+    all: 'All our services',
+  },
+}[lang];
+---
+
+<section id="services" class="py-16 md:py-24">
+  <div class="container-page">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <div class="max-w-2xl">
+        <p class="eyebrow">{copy.eyebrow}</p>
+        <h2 class="mt-3 text-3xl md:text-4xl">{copy.h2}</h2>
+        <p class="mt-4 text-lg text-ink-soft">{copy.intro}</p>
+      </div>
+      <a href={route('services', lang)} class="hidden items-center gap-1.5 text-sm font-semibold text-accent-strong underline-offset-4 hover:underline sm:inline-flex">
+        {copy.all}
+        <Icon name="arrow-right" size={17} />
+      </a>
+    </div>
+
+    <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 reveal-children">
+      {
+        services.map((s) => (
+          <a
+            href={servicePath(s.slug[lang], lang)}
+            class="group flex flex-col rounded-lg border border-line bg-surface-raised p-6 transition-[transform,border-color,box-shadow] duration-200 ease-out hover:-translate-y-1 hover:border-accent/40 hover:shadow-md"
+          >
+            <div class="flex items-center justify-between">
+              <span class="grid h-12 w-12 place-items-center rounded-md bg-accent-tint text-accent-strong">
+                <Icon name={iconFor[s.category]} size={24} />
+              </span>
+              {s.season !== 'toute-saison' && seasonLabel[s.season] && (
+                <span class="rounded-full border border-line bg-surface px-2.5 py-1 font-mono text-[0.68rem] uppercase tracking-wide text-ink-faint">
+                  {seasonLabel[s.season][lang]}
+                </span>
+              )}
+            </div>
+            <h3 class="mt-5 text-xl">{s.title[lang]}</h3>
+            <p class="mt-2 flex-1 text-[0.95rem] leading-relaxed text-ink-soft">{s.blurb[lang]}</p>
+            <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-accent-strong">
+              {copy.more}
+              <Icon name="arrow-right" size={16} class="transition-transform duration-200 ease-out group-hover:translate-x-1" />
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

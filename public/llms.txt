@@ -1,0 +1,36 @@
+# Toit à Toit Entretien
+
+> Toit à Toit Entretien is a roof-cleaning and roof-maintenance company serving
+> Montréal and surrounding areas. It specializes in roof snow removal, roof drain
+> clearing, leaf blowing/removal, and flat-roof flood prevention for residential
+> (and some municipal) clients on and around the Island of Montréal. Its
+> differentiator is honesty: it tells homeowners the truth about their roof —
+> including telling a customer to wait a year before cleaning when she did not yet
+> need it. Fully insured, locally owned (owner: Richard Gontarski).
+
+## Contact
+- Phone: (514) 993-6897
+- Email: toitatoitentretien@gmail.com
+- Service area: Saint-Léonard, Montréal, Québec, Canada (service-area business)
+- Areas served: Montréal, Saint-Léonard, Ahuntsic-Cartierville, Le Plateau-Mont-Royal, Montréal-Nord, Laval, Saint-Bruno-de-Montarville, Brossard
+- Facebook: https://www.facebook.com/toitatoitentretien
+
+## Services
+- Roof snow removal (déneigement de toiture) — clearing snow/ice load; snow is the leading cause of roof collapse in Montréal: https://toitatoitentretien.ca/services/deneigement-toiture
+- Roof drain clearing (dégagement de drain) — unblocking roof drains before water damages the membrane: https://toitatoitentretien.ca/services/degagement-drain
+- Leaf blowing and removal (soufflage et ramassage de feuilles) — autumn leaf cleanup on flat roofs: https://toitatoitentretien.ca/services/nettoyage-feuilles
+- Roof flood prevention (prévention des inondations) — keeping flat roofs draining freely: https://toitatoitentretien.ca/services/prevention-inondations
+- Roof renovation (rénovation de toiture): https://toitatoitentretien.ca/services/renovation-toiture
+- Custom solutions (solutions personnalisées): https://toitatoitentretien.ca/services/solutions-personnalisees
+
+## Key pages
+- Home: https://toitatoitentretien.ca/
+- Services overview: https://toitatoitentretien.ca/services
+- Our work (before/after portfolio): https://toitatoitentretien.ca/realisations
+- About / our story: https://toitatoitentretien.ca/a-propos
+- FAQ: https://toitatoitentretien.ca/faq
+- Contact / free quote: https://toitatoitentretien.ca/contact
+
+## Notes
+- Bilingual: French is canonical; English mirror under /en/.
+- Free, no-obligation quotes ("soumission gratuite").

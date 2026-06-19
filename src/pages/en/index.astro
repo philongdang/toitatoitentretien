@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/home/Hero.astro';
+import TrustBar from '../../components/home/TrustBar.astro';
+import Honesty from '../../components/home/Honesty.astro';
+import Services from '../../components/home/Services.astro';
+import Work from '../../components/home/Work.astro';
+import WhyUs from '../../components/home/WhyUs.astro';
+import FinalCta from '../../components/home/FinalCta.astro';
+
+const lang = 'en';
+const title = 'Toit à Toit Entretien — Roof cleaning and maintenance in Montréal';
+const description =
+  'Roof cleaning and maintenance in Montréal: snow removal, drain clearing, leaf blowing, and flat-roof flood prevention. Local, insured. Free quote within 24 hours.';
+---
+
+<BaseLayout {title} {description} {lang} alternates={{ fr: '/', en: '/en/' }}>
+  <Hero lang={lang} />
+  <TrustBar lang={lang} />
+  <Honesty lang={lang} />
+  <Services lang={lang} />
+  <Work lang={lang} />
+  <WhyUs lang={lang} />
+  <FinalCta lang={lang} />
+</BaseLayout>

@@ -1,0 +1,84 @@
+---
+import Icon from '../Icon.astro';
+import { route } from '../../lib/routes';
+import type { UiLang } from '../../i18n/ui';
+
+interface Props { lang: UiLang }
+const { lang } = Astro.props;
+const workHref = route('work', lang);
+
+const copy = {
+  fr: {
+    eyebrow: 'Réalisations',
+    h2: 'De vrais toits, de vrais résultats',
+    intro: 'Avant/après de chantiers réels à Montréal. Choisissez une catégorie pour voir le travail.',
+    tag: 'Avant / Après',
+    cats: [
+      { icon: 'leaf', name: 'Feuilles', line: 'Soufflage et ramassage' },
+      { icon: 'drop', name: 'Drains', line: 'Dégagement et débouchage' },
+      { icon: 'shield', name: 'Inondations', line: 'Prévention sur toit plat' },
+      { icon: 'snow', name: 'Déneigement', line: 'Retrait de la charge de neige' },
+      { icon: 'roof', name: 'Toiture', line: 'Rénovation et réfection' },
+    ],
+    cta: 'Voir toutes nos réalisations',
+  },
+  en: {
+    eyebrow: 'Our work',
+    h2: 'Real roofs, real results',
+    intro: 'Before/after from real Montréal jobs. Pick a category to see the work.',
+    tag: 'Before / After',
+    cats: [
+      { icon: 'leaf', name: 'Leaves', line: 'Blowing and removal' },
+      { icon: 'drop', name: 'Drains', line: 'Clearing and unblocking' },
+      { icon: 'shield', name: 'Flooding', line: 'Flat-roof prevention' },
+      { icon: 'snow', name: 'Snow removal', line: 'Lifting the snow load' },
+      { icon: 'roof', name: 'Roofing', line: 'Renovation and repair' },
+    ],
+    cta: 'See all our work',
+  },
+}[lang];
+
+const catSlugs = ['feuilles', 'drain', 'inondations', 'deneigement', 'toiture'];
+---
+
+<section class="py-16 md:py-24">
+  <div class="container-page">
+    <div class="max-w-2xl">
+      <p class="eyebrow">{copy.eyebrow}</p>
+      <h2 class="mt-3 text-3xl md:text-4xl">{copy.h2}</h2>
+      <p class="mt-4 text-lg text-ink-soft">{copy.intro}</p>
+    </div>
+
+    <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 reveal-children">
+      {
+        copy.cats.map((c, i) => (
+          <a
+            href={`${workHref}#${catSlugs[i]}`}
+            class="group flex items-center gap-4 rounded-lg border border-line bg-surface-raised p-5 transition-[transform,border-color,box-shadow] duration-200 ease-out hover:-translate-y-1 hover:border-accent/40 hover:shadow-md"
+          >
+            <span class="grid h-14 w-14 shrink-0 place-items-center rounded-md bg-accent-tint text-accent-strong">
+              <Icon name={c.icon as any} size={26} />
+            </span>
+            <div class="min-w-0">
+              <p class="font-mono text-[0.66rem] uppercase tracking-wider text-ink-faint">{copy.tag}</p>
+              <h3 class="mt-0.5 text-lg font-semibold">{c.name}</h3>
+              <p class="truncate text-sm text-ink-soft">{c.line}</p>
+            </div>
+            <Icon name="arrow-right" size={18} class="ml-auto shrink-0 text-ink-faint transition-transform duration-200 ease-out group-hover:translate-x-1 group-hover:text-accent-strong" />
+          </a>
+        ))
+      }
+
+      <a
+        href={workHref}
+        class="group flex flex-col justify-between rounded-lg bg-accent p-6 text-white shadow-sm transition-[transform,box-shadow] duration-200 ease-out hover:-translate-y-1 hover:shadow-md"
+      >
+        <Icon name="sparkle" size={26} class="text-white/85" />
+        <span class="mt-8 inline-flex items-center gap-2 text-lg font-semibold leading-snug">
+          {copy.cta}
+          <Icon name="arrow-up-right" size={20} class="transition-transform duration-200 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
